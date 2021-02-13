@@ -1,0 +1,42 @@
+---
+title: "Brown Forsyth test"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+date: "Feb 2020"
+theme: cerulean
+---
+
+<!-- For more info on RMarkdown see http://rmarkdown.rstudio.com/ -->
+
+## Name: Patrick Mensah
+
+
+
+
+```{r echo=FALSE}
+Plastic_Hardnessdata=read.table('Plastic_Hardness_Data.txt')
+colnames(Plastic_Hardnessdata)=c('y', 'x')
+Plastic_Hardness=data.frame(Plastic_Hardnessdata)
+Plastic_Hardness
+
+### Rearranging the columns
+Plastic_Hardness$Time=Plastic_Hardness$x
+Plastic_Hardness$Hardness=Plastic_Hardness$y
+Plastic_Hardness
+Plastic_Hardness<-subset(Plastic_Hardness, select = -c(x,y))
+Plastic_Hardness
+```
+
+
+
+```{r echo=FALSE}
+### . Brown-Forstyth test for constant variance 
+##install.packages("onewaytests")
+Plastic_Hardness1<-data.frame(Time=as.factor(Plastic_Hardness$Time),Hardness=Plastic_Hardness$Hardness)
+model<-lm(Hardness~Time, data = Plastic_Hardness1)
+library(onewaytests)
+bf.test(Hardness~Time, data = Plastic_Hardness1, alpha = 0.05)
+```
+
